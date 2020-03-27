@@ -13,6 +13,16 @@
   <body>
   <div class="container">
     <div class="row">
+      <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+            {% for x in range(last_page_num) %}
+            <li class="page-item"><a class="page-link" href="index{{loop.index}}.html">{{loop.index}}</a></li>
+            {% endfor %}
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          </ul>
+        </nav>
+        <div class="w-100"></div>
       {% for book in books %}
         <div class="card mb-3" style="max-width: 540px;">
           <div class="row no-gutters">
@@ -23,7 +33,7 @@
               <div class="card-body">
                 <h5 class="card-title">{{book.title}}</h5>
                 <p class="card-text">{{book.author}}</p>
-                <p class="card-text"><small class="text-muted">Last updated 5 mins ago</small></p>
+                <a href="{{book.book_path}}" target="_blank">Читать</a>
               </div>
             </div>
           </div>
