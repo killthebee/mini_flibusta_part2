@@ -2,12 +2,19 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 import json
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import argparse
+from pathlib import Path
+import os
 
 
 env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
     )
+
+
+root_dir = Path(os.path.dirname(os.path.abspath(__file__)))
+dir_path = root_dir / 'pages'
+dir_path.mkdir(exist_ok=True)
 
 
 parser = argparse.ArgumentParser(
