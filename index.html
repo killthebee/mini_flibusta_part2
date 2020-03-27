@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap.css">
 
     <title>Hello, world!</title>
   </head>
@@ -15,11 +15,25 @@
     <div class="row">
       <nav aria-label="Page navigation example">
           <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+            {% if current_page == 1 %}
+              <li class="page-item"><a class="page-link" href="#">Предыдущая</a></li>
+            {% else %}
+              <li class="page-item"><a class="page-link" href="index{{current_page - 1}}.html">Предыдущая</a></li>
+            {% endif %}
             {% for x in range(last_page_num) %}
-            <li class="page-item"><a class="page-link" href="index{{loop.index}}.html">{{loop.index}}</a></li>
+              {% if loop.index != current_page %}
+                <li class="page-item"><a class="page-link" href="index{{loop.index}}.html">{{loop.index}}</a></li>
+              {% else %}
+                <li class="page-item active" aria-current="page">
+                  <a class="page-link" href="#">{{loop.index}}<span class="sr-only">(current)</span></a>
+                </li>
+              {% endif %}
             {% endfor %}
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            {% if current_page == last_page_num %}
+              <li class="page-item"><a class="page-link" href="#">Следующая</a></li>
+            {% else %}
+              <li class="page-item"><a class="page-link" href="index{{current_page + 1}}.html">Следующая</a></li>
+            {% endif %}
           </ul>
         </nav>
         <div class="w-100"></div>

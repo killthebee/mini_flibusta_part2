@@ -23,8 +23,12 @@ def render_page(num, data, last_page_num, env):
     template = env.get_template('index.html')
     start_index = num * 10
     end_index = start_index + 10
-    rendered_page = template.render(books=data[start_index:end_index], last_page_num=last_page_num)
-    with open('index%s.html'%(num + 1), 'w', encoding="utf8") as file:
+    rendered_page = template.render(
+        books=data[start_index:end_index],
+        last_page_num=last_page_num,
+        current_page=num + 1,
+    )
+    with open('pages/index%s.html'%(num + 1), 'w', encoding="utf8") as file:
         file.write(rendered_page)
 
 server = Server()
