@@ -1,9 +1,9 @@
 from http.server import HTTPServer, SimpleHTTPRequestHandler
-import json
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-import argparse
 from pathlib import Path
 import os
+from bookchecker import fetch_finded_books_info
+import math
 
 
 env = Environment(
@@ -12,13 +12,10 @@ env = Environment(
     )
 
 
-def render_pages(last_page_num, books_info):
-
-    with open(books_info) as json_file:
-        data = json.load(json_file)
-
-    for num in range(0, last_page_num):
-        render_page(num, data, last_page_num)
+def render_pages(books_info):
+    amount_of_pages = math.ceil(len(books_info) / 10)
+    for num in range(0, amount_of_pages):
+        render_page(num, books_info, amount_of_pages)
 
 
 def render_page(num, data, last_page_num):
@@ -39,14 +36,8 @@ def main():
     dir_path = root_dir / 'pages'
     dir_path.mkdir(exist_ok=True)
 
-    parser = argparse.ArgumentParser(
-        description='Choose how many pages you need'
-    )
-    parser.add_argument('-l', '--last_page', help='Amount of pages')
-    parser.add_argument('-b', '--books_info', default='books_info.json', help='Amount of pages')
-    args = parser.parse_args()
-
-    render_pages(int(args.last_page), args.books_info)
+    finded_books_info = fetch_finded_books_info()
+    render_pages(finded_books_info)
     server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
     server.serve_forever()
 
