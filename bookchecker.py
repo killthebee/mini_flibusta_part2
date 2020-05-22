@@ -29,7 +29,7 @@ def fetch_finded_books_info():
             finded_book_info['book_path'] = book_path
             finded_books_info.append(finded_book_info)
             continue
-    print(finded_books_info)
+
     return finded_books_info
 
 

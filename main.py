@@ -4,6 +4,22 @@ from pathlib import Path
 import os
 from bookchecker import fetch_finded_books_info
 import math
+import shutil
+
+
+def clear_pages_dir():
+    dirname = os.path.dirname(__file__)
+    folder = os.path.join(dirname, 'pages')
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print('Failed to delete %s. Reason: %s' % (file_path, e))
+
 
 
 env = Environment(
@@ -32,6 +48,7 @@ def render_page(num, data, last_page_num):
 
 
 def main():
+    clear_pages_dir()
     root_dir = Path(os.path.dirname(os.path.abspath(__file__)))
     dir_path = root_dir / 'pages'
     dir_path.mkdir(exist_ok=True)
@@ -40,7 +57,6 @@ def main():
     render_pages(finded_books_info)
     server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
     server.serve_forever()
-
 
 
 if __name__ == '__main__':
