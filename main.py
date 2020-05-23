@@ -5,6 +5,7 @@ import os
 from bookchecker import fetch_finded_books_info
 import math
 import shutil
+from more_itertools import chunked
 
 
 def clear_pages_dir():
@@ -29,22 +30,19 @@ env = Environment(
 
 
 def render_pages(books_info):
+    splitted_books = list(chunked(books_info, 10))
     amount_of_pages = math.ceil(len(books_info) / 10)
-    for num in range(0, amount_of_pages):
-        render_page(num, books_info, amount_of_pages)
-
-
-def render_page(num, data, last_page_num):
     template = env.get_template('template.html')
-    start_index = num * 10
-    end_index = start_index + 10
-    rendered_page = template.render(
-        books=data[start_index:end_index],
-        last_page_num=last_page_num,
-        current_page=num + 1,
-    )
-    with open('pages/index%s.html'%(num + 1), 'w', encoding="utf8") as file:
-        file.write(rendered_page)
+
+    for count, books in enumerate(splitted_books, 1):
+        rendered_page = template.render(
+            books=books,
+            last_page_num=amount_of_pages,
+            current_page=count,
+        )
+        with open('pages/index%s.html' % (count), 'w', encoding="utf8") as file:
+            file.write(rendered_page)
+
 
 
 def main():
