@@ -12,12 +12,12 @@
     <link rel="icon" type="image/png" href="../favicon.png" sizes="96x96">
   </head>
   <body>
-  <div class="container">
+  <div class="container mt-3">
     <div class="row">
       <nav aria-label="Page navigation example">
           <ul class="pagination">
             {% if current_page == 1 %}
-              <li class="page-item"><a class="page-link" href="#">Предыдущая</a></li>
+              <li class="page-item disabled"><a class="page-link" href="#">Предыдущая</a></li>
             {% else %}
               <li class="page-item"><a class="page-link" href="index{{current_page - 1}}.html">Предыдущая</a></li>
             {% endif %}
@@ -31,7 +31,7 @@
               {% endif %}
             {% endfor %}
             {% if current_page == last_page_num %}
-              <li class="page-item"><a class="page-link" href="#">Следующая</a></li>
+              <li class="page-item disabled"><a class="page-link" href="#">Следующая</a></li>
             {% else %}
               <li class="page-item"><a class="page-link" href="index{{current_page + 1}}.html">Следующая</a></li>
             {% endif %}
@@ -53,7 +53,7 @@
                     <span class="badge badge-secondary">{{genre}}</span>
                   {% endfor %}
                 </div>
-                <a href="{{book.book_path}}" target="_blank">Читать</a>
+                <a href="{{book.book_path}}" class="mt-2" target="_blank">Читать</a>
               </div>
             </div>
           </div>
